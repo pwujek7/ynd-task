@@ -5,15 +5,16 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchUserRepositories, fetchUsers } from "@/api/user";
 import { TIME } from "@/const/time";
 
+interface QueryState<T> {
+  data: T | undefined;
+  isLoading: boolean;
+  isError: boolean;
+  error: Error | null;
+}
+
 interface UserContextType {
-  users: UsersResponse | undefined;
-  isUsersLoading: boolean;
-  isUsersError: boolean;
-  usersError: Error | null;
-  repositories: RepositoryResponse | undefined;
-  isRepositoriesLoading: boolean;
-  isRepositoriesError: boolean;
-  repositoriesError: Error | null;
+  users: QueryState<UsersResponse>;
+  repositories: QueryState<RepositoryResponse>;
   selectedUser: string;
   setSearchTerm: (username: string) => void;
   setSelectedUser: (username: string) => void;
@@ -56,14 +57,18 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   return (
     <UserContext.Provider
       value={{
-        users,
-        isUsersLoading,
-        isUsersError,
-        usersError,
-        repositories,
-        isRepositoriesLoading,
-        isRepositoriesError,
-        repositoriesError,
+        users: {
+          data: users,
+          isLoading: isUsersLoading,
+          isError: isUsersError,
+          error: usersError,
+        },
+        repositories: {
+          data: repositories,
+          isLoading: isRepositoriesLoading,
+          isError: isRepositoriesError,
+          error: repositoriesError,
+        },
         selectedUser,
         setSearchTerm,
         setSelectedUser,
