@@ -38,7 +38,7 @@ export function UsersSearchForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleOnSubmit)}
-        className="flex w-full mt-4 mb-8"
+        className="flex w-full my-6"
       >
         <FormField
           control={form.control}
