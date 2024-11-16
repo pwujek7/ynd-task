@@ -54,6 +54,15 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
       },
+      animation: {
+        "flip-lr": "flip-lr 1s infinite",
+      },
+      keyframes: {
+        "flip-lr": {
+          "0%, 100%": { transform: "rotateY(0deg)" },
+          "50%": { transform: "rotateY(180deg)" },
+        },
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

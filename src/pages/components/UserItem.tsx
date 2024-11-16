@@ -6,6 +6,8 @@ import { UserAvatar } from "@/pages/components/UserAvatar";
 import { cn } from "@/lib/utils";
 import { CaretDownIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 import { RepositoryItem } from "@/pages/components/RepositoryItem";
+import { LoadingIndicator } from "@/components/LoadingIndicator";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 export function UserItem({ user }: { user: User }) {
   const {
@@ -35,7 +37,7 @@ export function UserItem({ user }: { user: User }) {
     </a>
   );
 
-  if (isError) return <p>{"An error has occurred: " + error?.message}</p>;
+  if (isError) return <ErrorMessage message={error?.message} />;
 
   return (
     <Card className="mb-2">
@@ -54,7 +56,7 @@ export function UserItem({ user }: { user: User }) {
       </CardHeader>
       {isExpanded && (
         <CardContent className={cn(hasDataForSelectedUser && "p-6 pt-0")}>
-          {isLoadingForThisUser && <p>Loading...</p>}
+          {isLoadingForThisUser && <LoadingIndicator />}
           {hasDataForSelectedUser ? (
             <>
               {data.map((repo: Repository) => (
