@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import useUserContext from "@/context/UserContext";
 
 const FormSchema = z.object({
   username: z.string().min(1, {
@@ -19,11 +20,7 @@ const FormSchema = z.object({
   }),
 });
 
-export function UsersSearchForm({
-  onSubmit,
-}: {
-  onSubmit: (username: string) => void;
-}) {
+export function UsersSearchForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -31,8 +28,10 @@ export function UsersSearchForm({
     },
   });
 
+  const { setSearchTerm } = useUserContext();
+
   const handleOnSubmit = (data: z.infer<typeof FormSchema>) => {
-    onSubmit(data.username);
+    setSearchTerm(data.username);
   };
 
   return (
