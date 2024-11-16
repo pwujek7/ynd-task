@@ -1,13 +1,12 @@
 import { fetchUserRepositories, fetchUsers } from "@/api/user";
-import { Button } from "@/components/ui/button";
 import { TIME } from "@/const/time";
 import { Repository, RepositoryResponse } from "@/interfaces/repository";
 import { User, UsersResponse } from "@/interfaces/user";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import { UsersSearchForm } from "@/pages/components/UsersSearchForm";
 
 function Users() {
-  const [username, setUsername] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedUser, setSelectedUser] = useState<string>("");
 
@@ -42,10 +41,8 @@ function Users() {
     }
   }, [searchTerm, refetch]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
+  const handleSearchSubmit = (username: string) => {
     setSearchTerm(username);
-    setUsername("");
   };
 
   const handleUserClick = (username: string) => {
@@ -59,14 +56,7 @@ function Users() {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <Button type="submit">Search</Button>
-      </form>
+      <UsersSearchForm onSubmit={handleSearchSubmit} />
       <ul>
         {users?.items.map((user: User) => (
           <li key={user.id} onClick={() => handleUserClick(user.login)}>
