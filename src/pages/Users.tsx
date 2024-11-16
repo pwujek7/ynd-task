@@ -3,7 +3,7 @@ import { UsersList } from "@/pages/components/UsersList";
 
 function Users() {
   return (
-    <div>
+    <div className="container">
       <UsersSearchForm />
       <UsersList />
     </div>
