@@ -8,10 +8,19 @@ import { CaretDownIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
 import { RepositoryItem } from "@/pages/components/RepositoryItem";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { Button } from "@/components/ui/button";
 
 export function UserItem({ user }: { user: User }) {
   const {
-    repositories: { data, isLoading, isError, error },
+    repositories: {
+      data,
+      isLoading,
+      isError,
+      error,
+      fetchNextPage,
+      hasNextPage,
+      isFetchingNextPage,
+    },
     selectedUser,
     setSelectedUser,
   } = useUserContext();
@@ -20,6 +29,10 @@ export function UserItem({ user }: { user: User }) {
 
   const handleUserClick = (username: string) => {
     setSelectedUser(isExpanded ? "" : username);
+  };
+
+  const handleLoadMore = (): void => {
+    fetchNextPage();
   };
 
   const isLoadingForThisUser = selectedUser === user.login && isLoading;
@@ -59,11 +72,18 @@ export function UserItem({ user }: { user: User }) {
           {isLoadingForThisUser && <LoadingIndicator />}
           {hasDataForSelectedUser ? (
             <>
-              {data.map((repo: Repository) => (
+              {data.map((repo: any) => (
                 <RepositoryItem key={repo.id} repository={repo} />
               ))}
             </>
           ) : null}
+          <div className="flex justify-center items-center">
+            {hasNextPage && !isFetchingNextPage ? (
+              <Button onClick={handleLoadMore}>Load More</Button>
+            ) : isFetchingNextPage ? (
+              <LoadingIndicator className="m-0" />
+            ) : null}
+          </div>
         </CardContent>
       )}
     </Card>
