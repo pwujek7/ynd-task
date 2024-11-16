@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UserAvatar } from "@/pages/components/UserAvatar";
 import { cn } from "@/lib/utils";
 import { CaretDownIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
+import { RepositoryItem } from "@/pages/components/RepositoryItem";
 
 export function UserItem({ user }: { user: User }) {
   const {
@@ -55,17 +56,11 @@ export function UserItem({ user }: { user: User }) {
         <CardContent className={cn(hasDataForSelectedUser && "p-6 pt-0")}>
           {isLoadingForThisUser && <p>Loading...</p>}
           {hasDataForSelectedUser ? (
-            <div>
-              <ul>
-                {data.map((repo: Repository) => (
-                  <li key={repo.id}>
-                    <p>{repo.name}</p>
-                    <p>{repo.description}</p>
-                    <p>{repo.stargazers_count}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <>
+              {data.map((repo: Repository) => (
+                <RepositoryItem key={repo.id} repository={repo} />
+              ))}
+            </>
           ) : null}
         </CardContent>
       )}
