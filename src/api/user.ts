@@ -15,8 +15,10 @@ export const fetchUsers = (searchTerm: string): Promise<UsersResponse> => {
 
 export const fetchUserRepositories = (
   username: string,
+  page: number = 1,
 ): Promise<RepositoryResponse> => {
   const searchUrl = buildUrl(BASE_URL, `/users/${username}/repos`, {
+    page,
     per_page: 10,
   });
 

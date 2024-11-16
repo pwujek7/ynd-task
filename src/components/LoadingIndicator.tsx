@@ -1,8 +1,9 @@
+import { cn } from "@/lib/utils";
 import { Half2Icon } from "@radix-ui/react-icons";
 
-export function LoadingIndicator() {
+export function LoadingIndicator({ className }: { className?: string }) {
   return (
-    <div className="flex justify-center mt-6 mb-12">
+    <div className={cn("flex justify-center mt-6 mb-12", className)}>
       <Half2Icon className="animate-flip-lr" />
     </div>
   );

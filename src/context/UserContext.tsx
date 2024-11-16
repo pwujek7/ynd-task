@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { RepositoryResponse } from "@/interfaces/repository";
 import { UsersResponse } from "@/interfaces/user";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { fetchUserRepositories, fetchUsers } from "@/api/user";
 import { TIME } from "@/const/time";
 
@@ -14,7 +14,15 @@ interface QueryState<T> {
 
 interface UserContextType {
   users: QueryState<UsersResponse>;
-  repositories: QueryState<RepositoryResponse>;
+  repositories: {
+    data: RepositoryResponse[] | undefined;
+    isLoading: boolean;
+    isError: boolean;
+    error: Error | null;
+    fetchNextPage: () => void;
+    hasNextPage: boolean | undefined;
+    isFetchingNextPage: boolean;
+  };
   selectedUser: string;
   setSearchTerm: (username: string) => void;
   setSelectedUser: (username: string) => void;
@@ -43,16 +51,26 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   });
 
   const {
-    data: repositories,
+    data,
     isLoading: isRepositoriesLoading,
     isError: isRepositoriesError,
     error: repositoriesError,
-  } = useQuery<RepositoryResponse, Error>({
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery<RepositoryResponse[], Error>({
     queryKey: ["userRepositories", selectedUser],
-    queryFn: () => fetchUserRepositories(selectedUser),
+    // @ts-ignore
+    queryFn: async ({ pageParam }: { pageParam?: number }) =>
+      fetchUserRepositories(selectedUser, pageParam),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) =>
+      lastPage.length === 10 ? allPages.length + 1 : undefined,
     enabled: !!selectedUser,
     staleTime: TIME.ONE_MINUTE,
   });
+
+  const repositoriesData = data?.pages.flat() ?? [];
 
   return (
     <UserContext.Provider
@@ -64,10 +82,13 @@ export const UserProvider = ({ children }: UserProviderProps) => {
           error: usersError,
         },
         repositories: {
-          data: repositories,
+          data: repositoriesData as any,
           isLoading: isRepositoriesLoading,
           isError: isRepositoriesError,
           error: repositoriesError,
+          fetchNextPage,
+          hasNextPage,
+          isFetchingNextPage,
         },
         selectedUser,
         setSearchTerm,
