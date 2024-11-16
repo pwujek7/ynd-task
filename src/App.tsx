@@ -9,9 +9,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <UserProvider>
-        <main>
-          <Users />
-        </main>
+        <Users />
       </UserProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

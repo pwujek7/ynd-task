@@ -38,22 +38,26 @@ export function UsersSearchForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleOnSubmit)}
-        className="w-2/3 space-y-6"
+        className="flex w-full mt-4 mb-8"
       >
         <FormField
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-full">
               <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter user name" {...field} />
-              </FormControl>
+              <div className="flex !mt-0">
+                <FormControl>
+                  <Input placeholder="Enter user name" {...field} />
+                </FormControl>
+                <Button type="submit" className="mt-auto ml-2">
+                  Search
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );
