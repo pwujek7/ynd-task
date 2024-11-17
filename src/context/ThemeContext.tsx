@@ -10,7 +10,9 @@ interface ThemeContextType {
 
 type ThemeProviderProps = { children: React.ReactNode };
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined,
+);
 
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>(THEME.LIGHT);

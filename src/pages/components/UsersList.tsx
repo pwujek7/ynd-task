@@ -12,7 +12,7 @@ export function UsersList() {
   if (isError) return <ErrorMessage message={error?.message} />;
 
   return (
-    <div className="flex-grow">
+    <div className="flex-grow" data-testid="users-list">
       {isLoading ? (
         <LoadingIndicator />
       ) : (
