@@ -11,6 +11,7 @@ import { ErrorMessage } from "@/components/ErrorMessage";
 import { Button } from "@/components/ui/button";
 
 export function UserItem({ user }: { user: User }) {
+  const { login, html_url, avatar_url } = user;
   const {
     repositories: {
       data,
@@ -35,12 +36,12 @@ export function UserItem({ user }: { user: User }) {
     fetchNextPage();
   };
 
-  const isLoadingForThisUser = selectedUser === user.login && isLoading;
-  const hasDataForSelectedUser = selectedUser === user.login && data?.length;
+  const isLoadingForThisUser = selectedUser === login && isLoading;
+  const hasDataForSelectedUser = selectedUser === login && data?.length;
 
   const renderUserLink = () => (
     <a
-      href={user.html_url}
+      href={html_url}
       target="_blank"
       rel="noopener noreferrer"
       className="!mt-3 underline flex items-center"
@@ -55,14 +56,15 @@ export function UserItem({ user }: { user: User }) {
   return (
     <Card className="mb-2">
       <CardHeader
-        onClick={() => handleUserClick(user.login)}
+        onClick={() => handleUserClick(login)}
         className="cursor-pointer"
       >
         <div className="flex flex-row items-center w-full">
-          <UserAvatar src={user.avatar_url} />
-          <CardTitle>{user.login}</CardTitle>
+          <UserAvatar src={avatar_url} />
+          <CardTitle>{login}</CardTitle>
           <CaretDownIcon
             className={cn("ml-auto", isExpanded && "rotate-180")}
+            aria-label="Caret Icon"
           />
         </div>
         {isExpanded && renderUserLink()}
