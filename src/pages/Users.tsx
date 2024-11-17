@@ -1,12 +1,13 @@
+import { Layout } from "@/components/Layout";
 import { UsersSearchForm } from "@/pages/components/UsersSearchForm";
 import { UsersList } from "@/pages/components/UsersList";
 
 function Users() {
   return (
-    <div className="container flex flex-col min-h-screen">
+    <Layout>
       <UsersSearchForm />
       <UsersList />
-    </div>
+    </Layout>
   );
 }
 
