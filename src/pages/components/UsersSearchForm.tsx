@@ -39,6 +39,7 @@ export function UsersSearchForm() {
       <form
         onSubmit={form.handleSubmit(handleOnSubmit)}
         className="flex w-full my-10"
+        data-testid="users-search-form"
       >
         <FormField
           control={form.control}

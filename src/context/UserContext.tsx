@@ -27,7 +27,9 @@ interface UserContextType {
   setSelectedUser: (username: string) => void;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+export const UserContext = createContext<UserContextType | undefined>(
+  undefined,
+);
 
 interface UserProviderProps {
   children: ReactNode;
@@ -55,6 +57,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   } = useRepositories(selectedUser);
 
   const repositoriesData = data?.pages.flat() ?? [];
+  console.log(repositoriesData);
 
   return (
     <UserContext.Provider
