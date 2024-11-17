@@ -1,27 +1,16 @@
 import useUserContext from "@/context/UserContext";
 import { User } from "@/interfaces/user";
-import { Repository } from "@/interfaces/repository";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { UserAvatar } from "@/pages/components/UserAvatar";
 import { cn } from "@/lib/utils";
 import { CaretDownIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
-import { RepositoryItem } from "@/pages/components/RepositoryItem";
-import { LoadingIndicator } from "@/components/LoadingIndicator";
 import { ErrorMessage } from "@/components/ErrorMessage";
-import { Button } from "@/components/ui/button";
+import { RepositoriesList } from "@/pages/components/RepositoriesList";
 
 export function UserItem({ user }: { user: User }) {
   const { login, html_url, avatar_url } = user;
   const {
-    repositories: {
-      data,
-      isLoading,
-      isError,
-      error,
-      fetchNextPage,
-      hasNextPage,
-      isFetchingNextPage,
-    },
+    repositories: { data, isError, error },
     selectedUser,
     setSelectedUser,
   } = useUserContext();
@@ -32,11 +21,6 @@ export function UserItem({ user }: { user: User }) {
     setSelectedUser(isExpanded ? "" : username);
   };
 
-  const handleLoadMore = (): void => {
-    fetchNextPage();
-  };
-
-  const isLoadingForThisUser = selectedUser === login && isLoading;
   const hasDataForSelectedUser = selectedUser === login && data?.length;
 
   const renderUserLink = () => (
@@ -71,21 +55,7 @@ export function UserItem({ user }: { user: User }) {
       </CardHeader>
       {isExpanded && (
         <CardContent className={cn(hasDataForSelectedUser && "p-6 pt-0")}>
-          {isLoadingForThisUser && <LoadingIndicator />}
-          {hasDataForSelectedUser ? (
-            <>
-              {data.map((repo: any) => (
-                <RepositoryItem key={repo.id} repository={repo} />
-              ))}
-            </>
-          ) : null}
-          <div className="flex justify-center items-center">
-            {hasNextPage && !isFetchingNextPage ? (
-              <Button onClick={handleLoadMore}>Load More</Button>
-            ) : isFetchingNextPage ? (
-              <LoadingIndicator className="m-0" />
-            ) : null}
-          </div>
+          <RepositoriesList userLogin={selectedUser} />
         </CardContent>
       )}
     </Card>
