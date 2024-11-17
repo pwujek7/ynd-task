@@ -1,6 +1,10 @@
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
-export function ErrorMessage({ message }: { message?: string | undefined }) {
+type ErrorMessageProps = {
+  message?: string | undefined;
+};
+
+export function ErrorMessage({ message }: ErrorMessageProps) {
   const errorMessage = message
     ? `An error has occurred: ${message}`
     : "Something went wrong. Please try again later.";

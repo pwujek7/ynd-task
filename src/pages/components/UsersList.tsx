@@ -9,16 +9,16 @@ export function UsersList() {
     users: { data, isLoading, isError, error },
   } = useUserContext();
 
+  if (isLoading) {
+    return <LoadingIndicator />;
+  }
+
   if (isError) return <ErrorMessage message={error?.message} />;
 
   return (
     <div className="flex-grow" data-testid="users-list">
-      {isLoading ? (
-        <LoadingIndicator />
-      ) : (
-        data &&
-        data?.items.map((user: User) => <UserItem key={user.id} user={user} />)
-      )}
+      {data &&
+        data?.items.map((user: User) => <UserItem key={user.id} user={user} />)}
     </div>
   );
 }
