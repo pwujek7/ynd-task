@@ -9,7 +9,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div className="container flex flex-col min-h-screen">
-      <div className="fixed top-2 right-2">
+      <div className="fixed top-2 right-2 z-50">
         <Button onClick={toggleTheme}>
           {theme === THEME.DARK ? <SunIcon /> : <MoonIcon />}
         </Button>

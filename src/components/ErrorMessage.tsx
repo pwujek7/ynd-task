@@ -7,7 +7,11 @@ export function ErrorMessage({ message }: { message?: string | undefined }) {
 
   return (
     <div className="flex flex-row items-center mx-auto">
-      <ExclamationTriangleIcon className="mr-2" color="red" />
+      <ExclamationTriangleIcon
+        className="mr-2"
+        color="red"
+        aria-label="Error Icon"
+      />
       <p className="text-red-500">{errorMessage}</p>
     </div>
   );

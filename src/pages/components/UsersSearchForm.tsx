@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import useUserContext from "@/context/UserContext";
 
 const FormSchema = z.object({
-  username: z.string().min(1, {
+  username: z.string().trim().min(1, {
     message: "Required",
   }),
 });

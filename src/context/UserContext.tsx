@@ -1,9 +1,8 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { RepositoryResponse } from "@/interfaces/repository";
 import { UsersResponse } from "@/interfaces/user";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { fetchUserRepositories, fetchUsers } from "@/api/user";
-import { TIME } from "@/const/time";
+import { useUsers } from "@/hooks/useUsers";
+import { useRepositories } from "@/hooks/useRepositories";
 
 interface QueryState<T> {
   data: T | undefined;
@@ -43,12 +42,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     isLoading: isUsersLoading,
     isError: isUsersError,
     error: usersError,
-  } = useQuery<UsersResponse, Error>({
-    queryKey: ["users", searchTerm],
-    queryFn: () => fetchUsers(searchTerm),
-    enabled: !!searchTerm,
-    staleTime: TIME.ONE_HOUR,
-  });
+  } = useUsers(searchTerm);
 
   const {
     data,
@@ -58,17 +52,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useInfiniteQuery<RepositoryResponse[], Error>({
-    queryKey: ["userRepositories", selectedUser],
-    // @ts-ignore
-    queryFn: async ({ pageParam }: { pageParam?: number }) =>
-      fetchUserRepositories(selectedUser, pageParam),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, allPages) =>
-      lastPage.length === 10 ? allPages.length + 1 : undefined,
-    enabled: !!selectedUser,
-    staleTime: TIME.ONE_MINUTE,
-  });
+  } = useRepositories(selectedUser);
 
   const repositoriesData = data?.pages.flat() ?? [];
 
