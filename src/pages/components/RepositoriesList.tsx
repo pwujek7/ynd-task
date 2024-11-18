@@ -1,7 +1,6 @@
 import useUserContext from "@/context/UserContext";
 import { RepositoryItem } from "@/pages/components/RepositoryItem";
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import { Button } from "@/components/ui/button";
 import { LoadMore } from "@/components/LoadMore";
 
 type RepositoriesListProps = {

@@ -1,6 +1,5 @@
 import { UsersList } from "@/pages/components/UsersList";
-import { render, screen, waitFor } from "@testing-library/react";
-import { MockProviders } from "@/mock/mockProviders";
+import { render, screen, waitFor } from "@/test-utils";
 
 describe("UsersList component", () => {
   it("should show loading indicator when data is loading", () => {
@@ -13,11 +12,9 @@ describe("UsersList component", () => {
       },
     };
 
-    render(
-      <MockProviders mockUsersValue={users}>
-        <UsersList />
-      </MockProviders>,
-    );
+    render(<UsersList />, {
+      mockUsersValue: users,
+    });
     expect(screen.getByTestId("loading-icon")).toBeInTheDocument();
   });
 
@@ -32,11 +29,9 @@ describe("UsersList component", () => {
       },
     };
 
-    render(
-      <MockProviders mockUsersValue={users}>
-        <UsersList />
-      </MockProviders>,
-    );
+    render(<UsersList />, {
+      mockUsersValue: users,
+    });
     const errorElement = await screen.findByText(errorMessage);
     expect(errorElement).toBeInTheDocument();
   });
@@ -54,11 +49,9 @@ describe("UsersList component", () => {
       repositories: {},
     };
 
-    render(
-      <MockProviders mockUsersValue={users}>
-        <UsersList />
-      </MockProviders>,
-    );
+    render(<UsersList />, {
+      mockUsersValue: users,
+    });
     await waitFor(() => {
       expect(screen.getByText("John Doe")).toBeInTheDocument();
     });

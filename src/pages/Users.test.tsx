@@ -6,8 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 
-describe("Users", () => {
-  test("renders UsersSearchForm and UsersList", () => {
+describe("Users component", () => {
+  test("renders correctly", () => {
     render(
       <QueryClientProvider client={queryClient}>
         <UserProvider>

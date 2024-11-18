@@ -1,6 +1,4 @@
-import { Layout } from "@/components/Layout";
-import { MockProviders } from "@/mock/mockProviders";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@/test-utils";
 
 const defaultUsersContext = {
   users: {
@@ -23,19 +21,11 @@ const defaultUsersContext = {
   setSelectedUser: jest.fn(),
 };
 
-const renderWithContext = (
-  children: React.ReactNode,
-  contextValue = defaultUsersContext,
-) =>
-  render(
-    <MockProviders mockUsersValue={contextValue}>
-      <Layout>{children}</Layout>
-    </MockProviders>,
-  );
-
 describe("Layout component", () => {
   it("renders correctly", () => {
-    renderWithContext(<div>Test</div>);
+    render(<div>Test</div>, {
+      mockUsersValue: defaultUsersContext,
+    });
     expect(screen.getByText("Test")).toBeInTheDocument();
   });
 });
