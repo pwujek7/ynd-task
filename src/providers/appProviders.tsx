@@ -3,7 +3,7 @@ import { ThemeContext } from "@/context/ThemeContext";
 import { UserContext } from "@/context/UserContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-export const MockProviders = ({
+export const AppProviders = ({
   children,
   mockUsersValue,
 }: {

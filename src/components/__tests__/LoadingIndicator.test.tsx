@@ -1,5 +1,5 @@
 import { LoadingIndicator } from "@/components/LoadingIndicator";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@/test-utils";
 
 describe("LoadingIndicator component", () => {
   it("renders correctly", () => {

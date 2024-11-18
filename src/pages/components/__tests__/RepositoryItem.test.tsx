@@ -1,5 +1,5 @@
 import { RepositoryItem } from "@/pages/components/RepositoryItem";
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@/test-utils";
 
 describe("RepositoryItem component", () => {
   const repository = {

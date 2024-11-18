@@ -19,7 +19,8 @@
     "api": "@/api",
     "interfaces": "@/interfaces",
     "pages": "@/pages",
-    "const": "@/const"
+    "const": "@/const",
+    "providers": "@/providers"
   },
   "iconLibrary": "lucide"
 }

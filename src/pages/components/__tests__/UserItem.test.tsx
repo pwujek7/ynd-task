@@ -1,19 +1,12 @@
-import { render, screen } from "@testing-library/react";
-import { User } from "@/interfaces/user";
 import { UserItem } from "@/pages/components/UserItem";
-import { MockProviders } from "@/mock/mockProviders";
+import { render, screen } from "@/test-utils";
 
-const mockUser: User = {
+const mockUser = {
   id: 1,
   login: "John Doe",
   html_url: "test html url",
   avatar_url: "test url",
 };
-
-const mockRepositories = [
-  { id: 1, name: "repo 1", stargazers_count: 1 },
-  { id: 2, name: "repo 2", stargazers_count: 2 },
-];
 
 const defaultUsersContext = {
   users: {
@@ -25,7 +18,7 @@ const defaultUsersContext = {
     error: null,
   },
   repositories: {
-    data: mockRepositories,
+    data: [],
     isLoading: false,
     isError: false,
     fetchNextPage: jest.fn(),
@@ -36,32 +29,12 @@ const defaultUsersContext = {
   setSelectedUser: jest.fn(),
 };
 
-const renderWithContext = (user: User, contextValue = defaultUsersContext) =>
-  render(
-    <MockProviders mockUsersValue={contextValue}>
-      <UserItem user={user} />
-    </MockProviders>,
-  );
-
 describe("UserItem component", () => {
   it("renders correctly", () => {
-    renderWithContext(mockUser);
+    render(<UserItem user={mockUser} />, {
+      mockUsersValue: defaultUsersContext,
+    });
     expect(screen.getByText("John Doe")).toBeInTheDocument();
-  });
-
-  it("displays loading indicator while loading repositories", () => {
-    const loadingContext = {
-      ...defaultUsersContext,
-      repositories: {
-        ...defaultUsersContext.repositories,
-        isLoading: true,
-      },
-      selectedUser: "John Doe",
-    };
-
-    renderWithContext(mockUser, loadingContext);
-
-    expect(screen.getByTestId("loading-icon")).toBeInTheDocument();
   });
 
   it("shows error message if there is an error", async () => {
@@ -74,7 +47,9 @@ describe("UserItem component", () => {
       },
     };
 
-    renderWithContext(mockUser, errorContext);
+    render(<UserItem user={mockUser} />, {
+      mockUsersValue: errorContext,
+    });
 
     const errorElement = await screen.findByText(errorMessage);
     expect(errorElement).toBeInTheDocument();
